@@ -18,14 +18,11 @@ Implemented attacks:
 - hashlib
 
 # Usage
-In the case of ECDSA:
-`python main.py -s -i prefix_msb.json`
+In the case of ECDSA: `python main.py -s -i prefix_msb.json`
 
 # Unit tests:
-Run all unit tests:
-`python test.py`
-Run specific unit test:
-`python -m unittest tests/attacks/lattice_attacks/msb_attack_test.py`
+- Run all unit tests: `python test.py`
+- Run specific unit test: `python -m unittest tests/attacks/lattice_attacks/msb_attack_test.py`
 
 # Mathematical background:
 - Details written down in some of the scripts
