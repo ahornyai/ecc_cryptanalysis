@@ -17,8 +17,8 @@ class ECDSAttack(ABC):
 
         for kp in signatures["kp"]:
             kp_length += kp.bit_length()
-
-        return kp_length // len(signatures["kp"]) + 1 # upper bound
+        
+        return kp_length // len(signatures["kp"]) + 1
 
     def __str__(self) -> str:
         return "Untitled ECDSA attack"

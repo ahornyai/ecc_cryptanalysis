@@ -1,11 +1,13 @@
 import unittest
 
-from attacks.nonce_reuse import nonce_reuse_attack
+from attacks.nonce_reuse import NonceReuseAttack
 from utils.signature import sign
 from utils.curves import sec256r1, gen_sec256r1
 from hashlib import sha256
 from Crypto.Util.number import bytes_to_long
 import random
+
+attacker = NonceReuseAttack()
 
 class TestNonceReuse(unittest.TestCase):
     def test_nonce_reuse(self):
@@ -25,4 +27,4 @@ class TestNonceReuse(unittest.TestCase):
             "h": [bytes_to_long(sha256(message1).digest()), bytes_to_long(sha256(message2).digest()), bytes_to_long(sha256(message3).digest())]
         }
 
-        assert nonce_reuse_attack(signatures, None, sec256r1, None) == d
+        assert attacker.attack(signatures, None, sec256r1, None) == d

@@ -1,11 +1,13 @@
 import unittest
 
-from attacks.lattice_attacks.lsb_attack import lsb_attack
+from attacks.lattice_attacks.lsb_attack import LSBAttack
 from utils.signature import sign
 from utils.curves import sec256r1, gen_sec256r1
 from hashlib import sha1, sha256
 from Crypto.Util.number import bytes_to_long, long_to_bytes
 import random
+
+attacker = LSBAttack()
 
 class TestLSBAttack(unittest.TestCase):
     def test_lsb_attack_96(self):
@@ -13,7 +15,8 @@ class TestLSBAttack(unittest.TestCase):
         signatures = {
             "r": [],
             "s": [],
-            "h": []
+            "h": [],
+            "kp": []
         }
         d = random.randint(1, sec256r1.order() - 1)
 
@@ -28,8 +31,9 @@ class TestLSBAttack(unittest.TestCase):
             signatures["r"].append(r)
             signatures["s"].append(s)
             signatures["h"].append(bytes_to_long(h))
+            signatures["kp"].append(0)
 
-        assert lsb_attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1, 96) == d
+        assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
     
     def test_lsb_attack_128(self):
         # In this case we will have a 128 bit leak of the 256 bit nonce (LSB)
@@ -55,7 +59,7 @@ class TestLSBAttack(unittest.TestCase):
             signatures["h"].append(bytes_to_long(h))
             signatures["kp"].append(nonce & ((1 << 128) - 1))
 
-        assert lsb_attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1, 128) == d
+        assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
     
     def test_lsb_attack_64(self):
         signatures = {
@@ -80,7 +84,7 @@ class TestLSBAttack(unittest.TestCase):
             signatures["h"].append(bytes_to_long(h))
             signatures["kp"].append(nonce & ((1 << 64) - 1))
 
-        assert lsb_attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1, 64) == d
+        assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
     
     def test_lsb_attack_32(self):
         signatures = {
@@ -105,7 +109,7 @@ class TestLSBAttack(unittest.TestCase):
             signatures["h"].append(bytes_to_long(h))
             signatures["kp"].append(nonce & ((1 << 32) - 1))
 
-        assert lsb_attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1, 32) == d
+        assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
     
     def test_lsb_attack_16(self):
         signatures = {
@@ -130,4 +134,4 @@ class TestLSBAttack(unittest.TestCase):
             signatures["h"].append(bytes_to_long(h))
             signatures["kp"].append(nonce & ((1 << 16) - 1))
 
-        assert lsb_attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1, 16) == d
+        assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d

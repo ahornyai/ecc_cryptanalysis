@@ -1,11 +1,13 @@
 import unittest
 
-from attacks.lattice_attacks.prefix_msb_attack import prefix_msb_attack
+from attacks.lattice_attacks.prefix_msb_attack import PrefixMSBAttack
 from utils.signature import sign
 from utils.curves import sec256r1, gen_sec256r1
 from hashlib import sha1, sha256
 from Crypto.Util.number import bytes_to_long, long_to_bytes
 import random
+
+attacker = PrefixMSBAttack()
 
 class TestPrefixMSBAttack(unittest.TestCase):
 
@@ -32,7 +34,7 @@ class TestPrefixMSBAttack(unittest.TestCase):
             signatures["s"].append(s)
             signatures["h"].append(bytes_to_long(h))
 
-        assert prefix_msb_attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
+        assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
     
     def test_prefix_msb_attack_96(self):
         signatures = {
@@ -58,7 +60,7 @@ class TestPrefixMSBAttack(unittest.TestCase):
             signatures["s"].append(s)
             signatures["h"].append(bytes_to_long(h))
         
-        assert prefix_msb_attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
+        assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
     
     def test_prefix_msb_attack_64(self):
         signatures = {
@@ -83,4 +85,4 @@ class TestPrefixMSBAttack(unittest.TestCase):
             signatures["s"].append(s)
             signatures["h"].append(bytes_to_long(h))
 
-        assert prefix_msb_attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
+        assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d

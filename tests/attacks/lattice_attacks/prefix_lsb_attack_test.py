@@ -1,13 +1,13 @@
 import unittest
 
-from attacks.lattice_attacks.prefix_lsb_attack import prefix_lsb_attack
+from attacks.lattice_attacks.prefix_lsb_attack import PrefixLSBAttack
 from utils.signature import sign
 from utils.curves import sec256r1, gen_sec256r1
 from hashlib import sha1, sha256
 from Crypto.Util.number import bytes_to_long, long_to_bytes
 import random
 
-class TestPrefixMSBAttack(unittest.TestCase):
+class TestPrefixLSBAttack(unittest.TestCase):
 
     def test_prefix_msb_attack_128(self):
         signatures = {
@@ -32,5 +32,7 @@ class TestPrefixMSBAttack(unittest.TestCase):
             signatures["s"].append(s)
             signatures["h"].append(bytes_to_long(h))
 
-        assert prefix_lsb_attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1, 128) == d
+        attacker = PrefixLSBAttack(128)
+
+        assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
     
