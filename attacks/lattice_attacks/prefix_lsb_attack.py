@@ -4,13 +4,15 @@ from attacks.attack import ECDSAttack
 
 class PrefixLSBAttack(ECDSAttack):
 
-    def __init__(self, bias_size: int):
-        self.bias_size = bias_size
-
     def __str__(self):
-        return f"Prefix LSB attack (bias size: {self.bias_size} bits)"
+        return f"Prefix LSB attack"
     
     def attack(self, signatures, pubkey, curve, generator) -> int | None:
+        bias_size = signatures["kp_bits"]
+
+        if bias_size == 1:
+            print("[WARNING] You have to set kp_bits to the known amount of bits in order to execute this attack sucessfully.")
+
         # if we have shared most significant bits of the nonce, but we don't know those bits, we can use this attack
         order = curve.order()
 
@@ -28,8 +30,8 @@ class PrefixLSBAttack(ECDSAttack):
         s_inverse = [pow(s, -1, order) for s in signatures["s"]]
 
         # We subtract the offset signature from the signatures and divide by the size of the bias so the nonce vector will be a short vector
-        A = vector([(pow(2 ** self.bias_size, -1, order) * (s_inv * r - offset_inv_s * offset_r)) % order for (s_inv, r) in zip(s_inverse, signatures["r"])])
-        B = vector([(pow(2 ** self.bias_size, -1, order) * (s_inv * h - offset_inv_s * offset_h)) % order for (s_inv, h) in zip(s_inverse, signatures["h"])])
+        A = vector([(pow(2 ** bias_size, -1, order) * (s_inv * r - offset_inv_s * offset_r)) % order for (s_inv, r) in zip(s_inverse, signatures["r"])])
+        B = vector([(pow(2 ** bias_size, -1, order) * (s_inv * h - offset_inv_s * offset_h)) % order for (s_inv, h) in zip(s_inverse, signatures["h"])])
 
         m = matrix((matrix.identity(sample_size) * order).rows() + [A] + [B])
 
@@ -39,7 +41,7 @@ class PrefixLSBAttack(ECDSAttack):
         # k' = k_n - k_0
         # we know that k = s^-1 * (h + d * r) mod order
         # based on this we can solve for d
-        privkeys = [(2 ** self.bias_size * k * s * offset_s - offset_s * h + s * offset_h) * pow(r * offset_s - offset_r * s, -1, order) % order for r, s, h, k in zip(signatures["r"], signatures["s"], signatures["h"], k_prime)]
+        privkeys = [(2 ** bias_size * k * s * offset_s - offset_s * h + s * offset_h) * pow(r * offset_s - offset_r * s, -1, order) % order for r, s, h, k in zip(signatures["r"], signatures["s"], signatures["h"], k_prime)]
         
         for privkey in privkeys:
             if pubkey == privkey * generator:

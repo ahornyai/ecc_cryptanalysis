@@ -13,7 +13,8 @@ class TestPrefixLSBAttack(unittest.TestCase):
         signatures = {
             "r": [],
             "s": [],
-            "h": []
+            "h": [],
+            "kp_bits": 128
         }
 
         d = random.randint(1, sec256r1.order() - 1)
@@ -32,7 +33,7 @@ class TestPrefixLSBAttack(unittest.TestCase):
             signatures["s"].append(s)
             signatures["h"].append(bytes_to_long(h))
 
-        attacker = PrefixLSBAttack(128)
+        attacker = PrefixLSBAttack()
 
         assert attacker.attack(signatures, d*gen_sec256r1, sec256r1, gen_sec256r1) == d
     

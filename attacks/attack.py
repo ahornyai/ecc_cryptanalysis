@@ -12,13 +12,5 @@ class ECDSAttack(ABC):
     def attack(self, signatures, pubkey, curve, generator) -> int | None:
         pass
 
-    def find_known_part_length(self, signatures):
-        kp_length = 0
-
-        for kp in signatures["kp"]:
-            kp_length += kp.bit_length()
-        
-        return kp_length // len(signatures["kp"]) + 1
-
     def __str__(self) -> str:
         return "Untitled ECDSA attack"

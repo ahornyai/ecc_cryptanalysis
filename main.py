@@ -48,7 +48,16 @@ def parse_file_ecdsa(file_name):
 
     # Set default value to kp
     if "kp" not in signatures or len(signatures["kp"]) == 0:
-            signatures["kp"] = [0] * len(signatures["r"])
+        signatures["kp"] = [0] * len(signatures["r"])
+    
+    if "kp_bits" not in signatures:
+        # This is just a good guess, the best if you specify the exact number in the input
+        kp_length = 0
+
+        for kp in signatures["kp"]:
+            kp_length += kp.bit_length()
+        
+        signatures["kp_bits"] = kp_length // len(signatures["kp"]) + 1
     
     print(f"Parsed {len(signatures['r'])} signatures")
 

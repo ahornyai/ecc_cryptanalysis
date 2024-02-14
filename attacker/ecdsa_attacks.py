@@ -11,12 +11,7 @@ attacks = [
     MSBAttack(),
     LSBAttack(),
     PrefixMSBAttack(),
-    PrefixLSBAttack(8),
-    PrefixLSBAttack(16),
-    PrefixLSBAttack(32),
-    PrefixLSBAttack(64),
-    PrefixLSBAttack(96),
-    PrefixLSBAttack(128),
+    PrefixLSBAttack(),
 ]
 
 def attack_ecdsa(signatures, curve, generator):
@@ -45,7 +40,8 @@ def attack_ecdsa(signatures, curve, generator):
             "r": signatures["r"][:signatures_count],
             "s": signatures["s"][:signatures_count],
             "h": signatures["h"][:signatures_count],
-            "kp": signatures["kp"][:signatures_count] if "kp" in signatures else []
+            "kp": signatures["kp"][:signatures_count] if "kp" in signatures else [],
+            "kp_bits": signatures["kp_bits"]
         }
         
         print(f"Analysing {len(signatures['r'])} signatures with {attack}")

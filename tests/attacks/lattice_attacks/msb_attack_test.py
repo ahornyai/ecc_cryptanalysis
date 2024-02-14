@@ -17,7 +17,8 @@ class TestMSBAttack(unittest.TestCase):
             "r": [],
             "s": [],
             "h": [],
-            "kp": []
+            "kp": [],
+            "kp_bits": 128
         }
 
         d = random.randint(1, sec256r1.order() - 1)
@@ -43,7 +44,8 @@ class TestMSBAttack(unittest.TestCase):
             "r": [],
             "s": [],
             "h": [],
-            "kp": []
+            "kp": [],
+            "kp_bits": 96
         }
         d = random.randint(1, sec256r1.order() - 1)
 
@@ -67,7 +69,8 @@ class TestMSBAttack(unittest.TestCase):
             "r": [],
             "s": [],
             "h": [],
-            "kp": []
+            "kp": [],
+            "kp_bits": 64
         }
 
         d = random.randint(1, sec256r1.order() - 1)
@@ -92,7 +95,8 @@ class TestMSBAttack(unittest.TestCase):
             "r": [],
             "s": [],
             "h": [],
-            "kp": []
+            "kp": [],
+            "kp_bits": 32
         }
 
         d = random.randint(1, sec256r1.order() - 1)
@@ -117,7 +121,8 @@ class TestMSBAttack(unittest.TestCase):
             "r": [],
             "s": [],
             "h": [],
-            "kp": []
+            "kp": [],
+            "kp_bits": 16
         }
 
         d = random.randint(1, sec256r1.order() - 1)

@@ -11,7 +11,7 @@ class MSBAttack(ECDSAttack):
         order = curve.order()
         sample_size = len(signatures["r"])
         s_inverse = [pow(s, -1, order) for s in signatures["s"]]
-        unknown_nonce_bits = curve.order().nbits() - self.find_known_part_length(signatures)
+        unknown_nonce_bits = curve.order().nbits() - signatures["kp_bits"]
 
         offset = 2**(unknown_nonce_bits-1)
         offset_vec = vector([offset] * sample_size)
