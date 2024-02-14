@@ -7,7 +7,7 @@ from utils.curves import from_str
 from attacker.ecdsa_attacks import attack_ecdsa
 
 def parse_file_ecdsa(file_name):
-    print("Parsing file: {}, method: ECDSA".format(file_name))
+    print(f"Parsing file: {file_name}, method: ECDSA")
 
     f = open(file_name, "r")
 
@@ -45,8 +45,12 @@ def parse_file_ecdsa(file_name):
     if len(signatures["r"]) < 2:
         print("I need at least 2 signatures to perform the attacks")
         exit(1)
+
+    # Set default value to kp
+    if "kp" not in signatures or len(signatures["kp"]) == 0:
+            signatures["kp"] = [0] * len(signatures["r"])
     
-    print("Parsed {} signatures".format(len(signatures["r"])))
+    print(f"Parsed {len(signatures['r'])} signatures")
 
     return (signatures, curve, generator)
 
@@ -60,12 +64,12 @@ if __name__ == "__main__":
     if args.ecdsa:
         (signatures, curve, generator) = parse_file_ecdsa(args.input)
 
-        print("Curve: {}".format(curve))
-        print("Generator: {}".format(generator))
+        print(f"Curve: {curve}")
+        print(f"Generator: {generator}")
 
         start_time = time.time()
         attack_ecdsa(signatures, curve, generator)
-        print("Attack completed in {} seconds".format(round(time.time() - start_time, 2)))
+        print(f"Attack completed in {round(time.time() - start_time, 2)} seconds")
 
         exit(1)
     

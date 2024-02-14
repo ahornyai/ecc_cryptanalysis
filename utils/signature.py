@@ -1,10 +1,9 @@
-from sage.all import EllipticCurve, Integer
+from sage.all import Integer
 from hashlib import sha256
 from Crypto.Util.number import bytes_to_long
 import random
 
-
-def sign(privkey: int, message: bytes, curve: EllipticCurve, G=None, hash=sha256, k=None,) -> (int, int):
+def sign(privkey: int, message: bytes, curve, G=None, hash=sha256, k=None,) -> tuple[int, int]:
     order = curve.order()
 
     if k == None:
@@ -18,7 +17,7 @@ def sign(privkey: int, message: bytes, curve: EllipticCurve, G=None, hash=sha256
 
     return (r, s)
 
-def recover_public_keys(signature: (int, int, int), curve: EllipticCurve, G=None):
+def recover_public_keys(signature: tuple[int, int, int], curve, G=None):
     (r, s, v) = signature
 
     if G == None:
@@ -37,7 +36,7 @@ def recover_public_keys(signature: (int, int, int), curve: EllipticCurve, G=None
 
     return (pub1, pub2)
 
-def recover_public_key(signature1: (int, int, int), signature2: (int, int, int), curve: EllipticCurve, G=None):
+def recover_public_key(signature1: tuple[int, int, int], signature2: tuple[int, int, int], curve, G=None):
     (pub1, pub2) = recover_public_keys(signature1, curve, G)
     (pub3, pub4) = recover_public_keys(signature2, curve, G)
 
