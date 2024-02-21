@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
         exit(1)
     
-    if args.dlp:
+    if args.ecdlp:
         (public_key, curve, generator) = parse_file_ecdlp(args.input)
 
         print(f"Curve: {curve}")

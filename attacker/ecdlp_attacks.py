@@ -1,8 +1,11 @@
+from attacks.ecdlp.pohlig_hellman import PohligHellmanAttack
+
 attacks = [
     # todo: Pollard's rho, BSGS, MOV-attack, Frey-Ruck attack, Singular curve attack, Smart's attack, etc...
+    PohligHellmanAttack()
 ]
 
-def attack_ecdsa(public_key, curve, generator):
+def attack_ecdlp(public_key, curve, generator):
     print("Starting the attacks...")
     
     for attack in attacks:

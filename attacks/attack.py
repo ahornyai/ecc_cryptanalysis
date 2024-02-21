@@ -14,3 +14,12 @@ class ECDSAttack(ABC):
 
     def __str__(self) -> str:
         return "Untitled ECDSA attack"
+
+class ECDLPAttack(ABC):
+
+    @abstractmethod
+    def attack(self, public_key, curve, generator) -> int | None:
+        pass
+
+    def __str__(self) -> str:
+        return "Untitled ECDLP attack"
