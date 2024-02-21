@@ -18,7 +18,7 @@ class PohligHellmanAttack(ECDLPAttack):
         for a in primes:
             fac = a[0] ** a[1]
             
-            if fac.bit_length() > 50:
+            if fac.bit_length() > self.threshold:
                 continue
 
             t = int(q) // int(fac)
