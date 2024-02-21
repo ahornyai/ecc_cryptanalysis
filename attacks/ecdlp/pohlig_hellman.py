@@ -4,7 +4,7 @@ from attacks.attack import ECDLPAttack
 class PohligHellmanAttack(ECDLPAttack):
 
     def __init__(self):
-        self.threshold = 40 # Only prime factors below 40 bits are considered
+        self.threshold = 50 # Only prime factors below 40 bits are considered
 
     def __str__(self):
         return f"Pohlig-Hellman algorithm"
