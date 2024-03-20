@@ -9,20 +9,20 @@ Implemented attacks:
     - Known most significant bits
   - Nonce reuse attack (the classic PS3 mistake, common challenge)
 - **DLP**:
-  - TODO
+  - Pohlig-Hellman attack
 
 # Requirements
 - sage
 - unittest
 - pycryptodome
 - hashlib
+- TODO: dockerized solution
 
 # Usage
-In the case of ECDSA: `python main.py -s -i prefix_msb.json`
+- ECDSA: `python3 main.py -s -i examples/ddc2022_hard.json`
 
 # Unit tests:
 - Run all unit tests: `python test.py`
-- Run specific unit test: `python -m unittest tests/attacks/lattice_attacks/msb_attack_test.py`
 
 # Mathematical background:
 - Details written down in some of the scripts
